@@ -1,0 +1,297 @@
+snippet snips "all snippets"
+/*
+snips
+in
+b1
+b2
+b3
+fast
+file
+bs
+cho
+minv
+oset
+mhp
+dsu
+fenw
+segt
+*/
+endsnippet
+
+snippet b1 "boilerplate basic"
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+signed main() {
+	$0
+}
+endsnippet
+
+snippet in "cin auto"
+print-%: ; @echo $*=$($*)
+endsnippet
+
+snippet b2 "boilerplate testcase"
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+
+void solve() {
+	$0
+}
+
+signed main() {
+	int testcases; cin >> testcases; while(testcases--) solve();
+}
+endsnippet
+
+snippet b3 "boilerplate big"
+/* #pragma GCC optimize("O3,unroll-loops") */
+/* #pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt") */
+#include <bits/stdc++.h>
+using namespace std;
+#define int long long
+typedef vector<int> vi;
+typedef pair<int, int> pi;
+typedef bitset<1000000001> bs;
+/*
+ * bs[i]        =>  set.count(i)
+ * bs.set(i)    =>  set.insert(i)
+ * bs.reset(i)  =>  set.erase(i)
+ * bs.count()   =>  set.size()
+ *
+ * priority_queue <int, vector<int>, greater<int> > pq; minheap
+ */
+using ld = long double;
+using ll = long long;
+#define f first
+#define s second
+
+signed main() {
+	ios_base::sync_with_stdio(false); cin.tie(NULL);
+	/* freopen(".in", "r", stdin); */
+	/* freopen(".out", "w", stdout); */
+
+	$0
+}
+endsnippet
+
+snippet fast "fastio"
+ios_base::sync_with_stdio(false); cin.tie(NULL);
+endsnippet
+
+snippet file "file io"
+#ifndef LOCAL_JUDGE // g++ -DLOCAL_JUDGE
+freopen("${1:task}.in", "r", stdin); freopen("$1.out", "w", stdout);
+#endif
+endsnippet
+
+snippet bs "binary search"
+int lo=, hi=;
+while(lo<hi) {
+	int mid = (lo+hi)/2;
+	if(check(mid))
+	else
+}
+endsnippet
+
+snippet cho "choose"
+#include <bits/stdc++.h>
+using namespace std;
+
+const long long mod = 1e9+7;
+const long long maxn = 1e6+1;
+long long fac[maxn], inv[maxn];
+
+long long exp(long long x, unsigned long long y, const long long p){
+    //cout << "x = " << x << " y = " << y << " p = " << p << endl;
+    long long res=1; x=x%p;
+    while(y>0){
+        if (y&1) res= ((long long)res*x)%p; y=y>>1; x=((long long)x*x)%p;
+        //cout << "x = " << x << " y = " << y << " res = " << res << endl;
+    }
+    return res;
+}
+
+long long choose(long long a, long long b) {
+    long long ans = (fac[a] * inv[b]) %mod;
+    ans = (ans * inv[a-b]) %mod;
+    return ans;
+}
+
+int sub(int x, int y) {
+    return (x+ (mod - y))%mod;
+}
+
+signed main() {
+    long long fact_inv_max = 1e6; // fact and inv to calculate to (maxval
+    fac[0] = 1; inv[0] = 1;
+    for(long long i = 1; i < fact_inv_max+1; i++)  {
+        fac[i] = fac[i-1]*i%mod;
+        inv[i] = exp(fac[i], mod-2, mod);
+    }
+    // to use the inverse multiply
+    // (fac[x]*inv[x]) %mod = 1
+    // warning: multiply only one pair at a time then mod
+    // calculate choose: choose(a, b) iff a >= b
+    // WARNING I DIED LAST TIME: remember to use sub() instead of - for mod
+
+	$0
+}
+endsnippet
+
+snippet minv "mod inverse"
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+
+const int MOD = 1e9+7;
+const int MAXN = 1e6+1;
+int fac[MAXN], inv[MAXN];
+
+int exp(int x, unsigned int y, const int p){
+    //cout << "x = " << x << " y = " << y << " p = " << p << endl;
+    int res=1; x=x%p;
+    while(y>0){
+        if (y&1) res= ((int)res*x)%p; y=y>>1; x=((int)x*x)%p;
+        //cout << "x = " << x << " y = " << y << " res = " << res << endl;
+    }
+    return res;
+}
+
+signed main() {
+    // can use without the factorial
+    int n = 100000; // fact and inv to calculate to
+    fac[0] = 1; inv[0] = 1;
+    for(int i = 1; i < n+1; i++)  {
+        // fac[i] = fac[i-1]*i%MOD;
+        inv[i] = exp(fac[i], MOD-2, MOD);
+    }
+    // to use the inverse multiply
+    // fac[x]*inv[x] %MOD = 1
+    // WARNING: multiply ONLY one pair at a time then MOD
+
+	$0
+}
+endsnippet
+
+snippet oset "ordered set"
+#include <ext/pb_ds/tree_policy.hpp>
+#include <ext/pb_ds/assoc_container.hpp> // Common file
+using namespace __gnu_pbds;
+// Declaring ordered_set
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+endsnippet
+
+snippet mhp "min heap"
+priority_queue<${1:int}, vector<$1>, greater<$1>> pq;
+endsnippet
+
+snippet dsu "dsu.____"
+struct DSU {
+	vector<int> e;
+	DSU(int N) { e = vector<int>(N, -1); }
+
+	// get representive component (uses path compression)
+	int get(int x) { return e[x] < 0 ? x : e[x] = get(e[x]); }
+
+	bool same_set(int a, int b) { return get(a) == get(b); }
+
+	int size(int x) { return -e[get(x)]; }
+
+	bool unite(int x, int y) {  // union by size
+		x = get(x), y = get(y);
+		if (x == y) return false;
+		if (e[x] > e[y]) swap(x, y);
+		e[x] += e[y];
+		e[y] = x;
+		return true;
+	}
+};
+endsnippet
+
+snippet fenw "fenwick tree/bit bit.___ bit<> x();"
+template <class T> class BIT {
+	private:
+		int size;
+		vector<T> bit;
+		vector<T> arr;
+
+	public:
+		BIT(int size) : size(size), bit(size + 1), arr(size) {}
+
+		/** Sets the value at index ind to val. */
+		void set(int ind, T val) { add(ind, val - arr[ind]); }
+
+		/** Adds val to the element at index ind. */
+		void add(int ind, T val) {
+			arr[ind] += val;
+			ind++;
+			for (; ind <= size; ind += ind & -ind) { bit[ind] += val; }
+		}
+
+		/** @return The sum of all values in [0, ind]. */
+		T pref_sum(int ind) {
+			ind++;
+			T total = 0;
+			for (; ind > 0; ind -= ind & -ind) { total += bit[ind]; }
+			return total;
+		}
+};
+endsnippet
+
+snippet segt "seg tree with lazy prop NOTE: u should look at this more closely and understand what tf is happening"
+struct node{
+	// use node->method()
+	int s, e, m;
+	long long val = 0; long long lazy = 0;
+	node *l, *r;
+
+	node(int S, int E){
+		s = S, e = E, m = (s+e)/2;
+		if(s != e){
+			l = new node(s, m);
+
+			r = new node(m+1, e);
+		}
+	}
+
+	void apply(long long L){
+		val += L;
+		lazy += L;
+
+	}
+	void push(){
+		if(s == e) return;
+		l->apply(lazy);
+		r->apply(lazy);
+		lazy = 0;
+	}
+
+	void update(int S, int E, long long L){
+		push();
+		if(s == S && E == e){
+
+			apply(L);
+			return;
+		}
+		else if(E <= m) l->update(S, E, L);
+
+		else if(S >= m+1) r->update(S, E, L);
+		else l->update(S, m, L), r->update(m+1, E, L);
+		val = min(l->val, r->val);
+	}
+
+
+	long long query(int S, int E){
+		push();
+		if(s == S && E == e) return val;
+
+		else if(E <= m) return l->query(S, E);
+		else if(S >= m+1) return r->query(S, E);
+		else return min(l->query(S, m), r->query(m+1, E));
+	}
+} *root;
+endsnippet
