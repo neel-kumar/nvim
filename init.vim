@@ -4,7 +4,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'ThePrimeagen/harpoon'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-sensible'
-" Plug 'sheerun/vim-polyglot'
+" Plug 'sheerun/vim-polygyatt'
 Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'rose-pine/neovim'
 Plug 'SirVer/ultisnips'
@@ -15,6 +15,7 @@ call plug#end()
 
 " plugin config
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
+let g:UltiSnipsSnippetsDir="/home/neel/.config/nvim/snips"
 let g:UltiSnipsExpandTrigger='<tab>'
 let g:UltiSnipsJumpForwardTrigger='<c-j>'
 let g:UltiSnipsJumpBackwardTrigger='<c-k>'
@@ -43,7 +44,7 @@ endif
 
 " remaps
 let mapleader = " "
-nmap <leader>e :E<CR>
+nmap <leader>e :Ex<CR>
 nmap <leader>c :!cat % \| wl-copy <CR>
 nmap <leader>t :sp\|te <CR>
 :command RT set tabstop=4 shiftwidth=4 expandtab | retab
